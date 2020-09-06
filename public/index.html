@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io()
+      socket.on("connect", () => {
+        console.log("connect")
+        socket.emit("getStatus")
+        socket.emit("setTask", {taskIndex: 0, actionPin: 15, taskState: true})
+        socket.emit("setStartGame", true)
+        socket.emit("getTaskList")
+      })
+      socket.on("gameStatus", (data) => {
+        console.log("gameStatus: ", data)
+      })
+      socket.on("taskList", (data) => {
+        console.log("taskList: ", data)
+      })
+      socket.on("gameStartTime", (data) => {
+        console.log("gameStartTime: ", data)
+      })
+      socket.on("tasksState", (data) => {
+        console.log("tasksState: ", data)
+      })
+    </script>
+  </body>
+</html>
