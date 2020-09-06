@@ -3,7 +3,9 @@ const PORT = 3000
 const TASKLIST = [
   {
     taskName: "Загадка 1",
-    actionPin: 15
+    taskIndex: 0,
+    actionPin: 15,
+    actionType: "switch"
   }
 ]
 const PINMAP = [ // настройка GPIO

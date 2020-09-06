@@ -12,7 +12,7 @@
       socket.on("connect", () => {
         console.log("connect")
         socket.emit("getStatus")
-        socket.emit("setTask", {taskIndex: 0, actionPin: 15, taskState: true})
+        socket.emit("setTask", {taskIndex: 2, actionPin: 15, taskState: true, actionType: "switch"})
         socket.emit("setStartGame", true)
         socket.emit("getTaskList")
       })

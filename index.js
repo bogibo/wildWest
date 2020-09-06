@@ -34,8 +34,8 @@ io.on("connect", (socket) => {
     if (data) socket.emit("gameStartTime", game.getStartTime())
   })
   socket.on("setTask", (data) => {
-    const { taskIndex, actionPin, taskState } = data
-    control.setPinState(actionPin, taskState, taskIndex)
+    const { taskIndex, actionPin, taskState, actionType } = data
+    control.setPinState(actionPin, taskState, taskIndex, actionType)
   })
 })
 

@@ -24,16 +24,24 @@ class Rpio {
     })
   }
 
-  setPinState = (pin, newState, taskIndex) => {
+  setPinState = (pin, newState, taskIndex, actionType) => {
     if (
       typeof pin === "number" &&
       typeof newState === "boolean" &&
       typeof taskIndex === "number"
     ) {
-      rpio.write(pin, rpio.HIGH)
-      rpio.msleep(500)
-      rpio.write(pin, rpio.LOW)
-      this.game.setTasks(taskIndex, newState)
+      switch (actionType) {
+        case "switch":
+          if (!this.game.getTasks[taskIndex]) {
+            rpio.write(pin, rpio.HIGH)
+            rpio.msleep(500)
+            rpio.write(pin, rpio.LOW)
+          }
+          this.game.setTasks(taskIndex, newState)
+          break
+        default:
+          break
+      }
     }
   }
 }
