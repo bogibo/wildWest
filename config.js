@@ -7,7 +7,15 @@
  * Number of tasks
  * @const {number}
  */
-const TASKAMOUNT = 10
+const TASKAMOUNT = 6
+/**
+ * Main info abount the quest
+ * @const {{title: String, debug: Boolean}}
+ */
+const QUESTINFO = {
+  title: "Дикий запад",
+  debug: true,
+}
 /**
  * Web server port
  * @const {number}
@@ -36,39 +44,116 @@ const TASKLIST = [
     actionPin: 15,
     actionType: "switch",
   },
+  {
+    taskName: "Загадка 4",
+    taskIndex: 3,
+    actionPin: 15,
+    actionType: "switch",
+  },
+  {
+    taskName: "Загадка 5",
+    taskIndex: 4,
+    actionPin: 15,
+    actionType: "switch",
+  },
+  {
+    taskName: "Загадка 6",
+    taskIndex: 5,
+    actionPin: 15,
+    actionType: "switch",
+  },
 ]
 /**
- * Current pinout. Describes a list of pins. Where "taskName" is the name of the task, "taskIndex" is the index, "pin" is the gpio port number, "direction" is the port direction (INPUT | OUTPUT)
- * @const {Array.<{taskName: String, taskIndex: Number, pin: Number, direction: String}>}
+ * Current pinout. Describes a list of pins. Where "title" is the name of the subtask, "taskIndex" is the index, "pin" is the gpio port number, "direction" is the port direction (INPUT | OUTPUT)
+ * @const {Array.<{title: String, taskIndex: Number, pin: Number, direction: String}>}
  */
 const PINMAP = [
-  // настройка GPIO
   {
-    taskName: "task1", // название загадки
+    title: "Часть задания 1",
     taskIndex: 0,
-    pin: 16, // номер порта
+    pin: 40,
     direction: "INPUT",
   },
   {
-    taskName: "task1", // название загадки
+    title: "Часть 1 задания 2",
     taskIndex: 1,
-    pin: 19, // номер порта
+    pin: 19,
     direction: "INPUT",
   },
   {
-    taskName: "task1", // название загадки
+    title: "Часть 2 задания 2",
     taskIndex: 1,
-    pin: 21, // номер порта
+    pin: 21,
     direction: "INPUT",
   },
   {
-    taskName: "task1", // название загадки
+    title: "Часть 3 задания 2",
     taskIndex: 1,
-    pin: 23, // номер порта
+    pin: 35,
     direction: "INPUT",
   },
   {
-    taskName: "action",
+    title: "Часть 4 задания 2",
+    taskIndex: 1,
+    pin: 31,
+    direction: "INPUT",
+  },
+  {
+    title: "Часть 5 задания 2",
+    taskIndex: 1,
+    pin: 32,
+    direction: "INPUT",
+  },
+  {
+    title: "Часть 6 задания 2",
+    taskIndex: 1,
+    pin: 33,
+    direction: "INPUT",
+  },
+  {
+    title: "Часть 7 задания 2",
+    taskIndex: 1,
+    pin: 36,
+    direction: "INPUT",
+  },
+  {
+    title: "Часть 8 задания 2",
+    taskIndex: 1,
+    pin: 37,
+    direction: "INPUT",
+  },
+  {
+    title: "Часть задания 3",
+    taskIndex: 2,
+    pin: 24,
+    direction: "INPUT",
+  },
+  {
+    title: "Часть задания 4",
+    taskIndex: 3,
+    pin: 29,
+    direction: "INPUT",
+  },
+  {
+    title: "Часть задания 5",
+    taskIndex: 4,
+    pin: 26,
+    direction: "INPUT",
+  },
+  {
+    title: "Часть 1 задания 6",
+    taskIndex: 5,
+    pin: 27,
+    direction: "INPUT",
+  },
+  {
+    title: "Часть 2 задания 6",
+    taskIndex: 5,
+    pin: 28,
+    direction: "INPUT",
+  },
+  {
+    title: "action",
     taskIndex: null,
     pin: 15,
     direction: "OUTPUT",
@@ -80,4 +165,5 @@ module.exports = {
   PORT,
   PINMAP,
   TASKLIST,
+  QUESTINFO,
 }

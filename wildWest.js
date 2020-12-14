@@ -51,7 +51,19 @@ class WildWest {
      * @type {Array}
      */
     this.pinMap = pinMap
+    this.pinHistory = []
   }
+  getPinHistory = () => {
+    return this.pinHistory
+  }
+  setPinHistory = (pin, remove = false) => {
+    if (remove) {
+      this.pinHistory = this.pinHistory.filter((item) => item.pin !== pin)
+      return
+    }
+    this.pinHistory.push(pin)
+  }
+
   /**
    * Shows the current state of the quest
    * @method
@@ -68,10 +80,10 @@ class WildWest {
    * @returns {void}
    */
   setIsStart = (newState) => {
-    if (typeof newState === "boolean" && !this.isFinish) {
+    if (typeof newState === 'boolean' && !this.isFinish) {
       if (newState === true) this.startTime = Date.now()
       this.isStart = newState
-      this.io.emit("res", "game started")
+      this.io.emit('res', 'game started')
     }
   }
   /**
@@ -90,7 +102,7 @@ class WildWest {
    * @returns {(boolean|boolean[])}
    */
   getTasks = (index) => {
-    if (typeof index === "number") {
+    if (typeof index === 'number') {
       return this.tasks[index]
     } else {
       return this.tasks
@@ -99,36 +111,49 @@ class WildWest {
   /**
    * Force sets the new task status and sends an event to the client "tasksState"
    * @method
-   * @param {number} index 
-   * @param {boolean} newState 
+   * @param {number} index
+   * @param {boolean} newState
    * @returns {void}
    */
   setTasks = (index, newState) => {
-    if (typeof index === "number" && typeof newState === "boolean") {
+    if (typeof index === 'number' && typeof newState === 'boolean') {
       this.tasks[index] = newState
-      io.emit("tasksState", this.tasks)
+      io.emit('tasksState', this.tasks)
+      this.checkIsFinish()
     }
   }
+  getFinishTime = () => {
+    return this.finishTime
+  }
+
   /**
    * Sets the new task status and sends an event to the client "tasksState"
    * @method
-   * @param {number} index 
-   * @param {boolean} newState 
+   * @param {number} index
+   * @param {boolean} newState
    * @returns {void}
    */
-  setTaskState = (index, newState) => {
+  setTaskState = (index, pin, pinState) => {
     if (this.tasks[index]) return
-    if (newState) {
-      this.taskParts[index]++
-    } else {
-      this.taskParts[index]--
+    if (!pinState) {
+      if (this.taskParts[index] !== 0) this.taskParts[index]--
+      this.setPinHistory(pin, true)
+      this.io.emit('pinHistory', this.pinHistory)
     }
-    const currentTaskParts = this.pinMap.map((item) => {
-      if ((item.taskIndex = index)) return item
-    })
-    if (currentTaskParts.length === this.taskParts[index]) {
+    this.taskParts[index]++
+    const currentTaskParts = this.pinMap.filter(
+      (item) => (item.taskIndex = index)
+    )
+    if (currentTaskParts.length >= currentTaskParts.length) {
       this.tasks[index] = true
-      io.emit("tasksState", this.tasks)
+      this.setPinHistory(pin)
+      console.log('tasksState', this.tasks)
+      io.emit('tasksState', this.tasks)
+      this.checkIsFinish()
+      return true
+    } else {
+      this.io.emit('pinHistory', this.pinHistory)
+      return false
     }
   }
   /**
@@ -143,7 +168,7 @@ class WildWest {
       this.finishTime = Date.now()
       this.isStart = false
       this.isFinish = true
-      this.io.emit("finish", true)
+      this.io.emit('finish', { finishTime: this.finishTime })
     }
   }
   /**
@@ -158,6 +183,7 @@ class WildWest {
     this.finishTime = null
     this.tasks.fill(false)
     this.taskParts.fill(0)
+    this.pinHistory = []
   }
 }
 
